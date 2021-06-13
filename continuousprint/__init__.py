@@ -171,8 +171,15 @@ class ContinuousprintPlugin(octoprint.plugin.SettingsPlugin,
 		# Clear down the bed
 		self.clear_bed()
 		
+		# Fix pause on last item
+		if self.paused == True:
+			queue = json.loads(self._settings.get(["cp_queue"]))
+			if len(queue) <= 0:
+				self.paused == False
+		
 		# Tell the UI to reload
-		self._plugin_manager.send_plugin_message(self._identifier, dict(type="reload", msg=""))
+		# TODO: need to reload?
+		# self._plugin_manager.send_plugin_message(self._identifier, dict(type="reload", msg=""))
 	
 
 	def clear_bed(self):
